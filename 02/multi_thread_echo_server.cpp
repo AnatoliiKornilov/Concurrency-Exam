@@ -1,3 +1,5 @@
+// g++ multi_thread_echo_server.cpp -std=c++23 -o server
+
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <sys/socket.h>

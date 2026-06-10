@@ -1,3 +1,5 @@
+// g++ single_threaded_echo_server.cpp -std=c++23 -o server
+
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
@@ -6,9 +8,9 @@
 #include <cstring>
 #include <iostream>
 
-const int PORT = 8080;
-const int BACKLOG = 5;
-const size_t BUFFER_SIZE = 1024;
+int PORT = 8080;
+int BACKLOG = 5;
+size_t BUFFER_SIZE = 1024;
 
 int main() {
   // 1. Создаём сокет
@@ -70,7 +72,7 @@ int main() {
         // Клиент закрыл соединение или ошибка
         break;
       }
-      // Отправляем данные обратно (эхо)
+      // Отправляем данные обратно
       write(client_fd, buffer, bytes_read);
     }
 

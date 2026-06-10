@@ -1,3 +1,5 @@
+// g++ multi_thread_echo_client.cpp -std=c++23 -o client
+
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -11,12 +13,13 @@
 
 using namespace std::chrono_literals;
 
-const const char* HOST = "127.0.0.1";
+const char* HOST = "127.0.0.1";
 const int PORT = 8080;
 const int NUM_CLIENT_THREADS = 10;
+const unsigned int ITERATIONS_PER_THREAD = 5;
 
 void client_worker(int id) {
-  while (true) {
+  for (unsigned int i = 0; i < ITERATIONS_PER_THREAD; ++i) {
     // 1. Создаём сокет
     int sock = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -56,7 +59,11 @@ void client_worker(int id) {
     }
 
     close(sock);
+
+    std::this_thread::sleep_for(1s);
   }
+
+  std::osyncstream(std::cout) << "[Client " << id << "] finished after " << ITERATIONS_PER_THREAD << " iterations.\n";
 }
 
 int main() {
