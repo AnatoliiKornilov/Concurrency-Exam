@@ -1,4 +1,4 @@
-# 7. Понятие `data race`. `Store buffering`. Класс `std::atomic` и его основные методы. Спинлок. Реализация `mutex` через спинлок.
+# 6. Понятие `data race`. `Store buffering`. Класс `std::atomic` и его основные методы. Спинлок. Реализация `mutex` через спинлок.
 
 ## Data race (гонка данных)
 
