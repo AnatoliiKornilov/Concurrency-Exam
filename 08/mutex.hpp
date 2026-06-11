@@ -27,10 +27,10 @@ class Mutex {
   }
 
   void unlock() {
-    int old = state_.exchange(0);
+    void* state_address = &state_;
 
-    if (old == 2) {
-      syscall(SYS_futex, &state_, FUTEX_WAKE, 1, nullptr, nullptr, 0);
+    if (state_.exchange(0) == 2) {
+      syscall(SYS_futex, state_address, FUTEX_WAKE, 1, nullptr, nullptr, 0);
     }
   }
 };

@@ -7,6 +7,22 @@
 С двухсостоянным `mutex` это race: после `store(0)` в `unlock` `Producer` возвращает управление вверх по стеку, дальше у `Producer`'а нет никаких обязательств — он может вызвать деструктор `OneShot`. А `Consumer` в этот момент ещё спит в `futex_wait`. `Producer` должен гарантированно разбудить его до возврата — иначе деструктор зачистит память, на которую `Consumer` держит указатель в `kernel wait queue`.
 С трёхсостоянным `mutex` `Producer` читает старое значение в exchange и видит, что оно равно 2 — есть `waiter`, значит, обязан синхронно вызвать `futex_wake` до возврата. Никакого «может быть `waiter`, может нет» — состояние памяти самодостаточно отвечает на этот вопрос.
 
+```cpp
+class OneShot {                 // выполнить функцию ровно один раз
+    std::mutex mtx;
+    bool called = false;
+public:
+    void call() {
+        std::lock_guard lk(mtx);
+        if (!called) { called = true; func(); }
+    }
+};
+
+auto os = std::make_shared<OneShot>();
+std::thread t1([os] { os->call(); });
+std::thread t2([os] { /* дождались call */ os.reset(); /* уничтожаем */ });
+```
+
 ## Состояния
 + 0 - мьютекс свободен
 + 1 - мьютекс занят, нет ожидающих потоков
