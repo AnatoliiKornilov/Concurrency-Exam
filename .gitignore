@@ -6,3 +6,5 @@
 
 07/test_mutex
 08/test_mutex
+
+09/test_cond_var
