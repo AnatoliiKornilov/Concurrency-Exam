@@ -1,0 +1,19 @@
+#include "async_task.hpp"
+
+namespace coro {
+
+////////////////////////////////////////////////////////////////////////////////
+
+const char* AsyncTaskInvalid::what() const noexcept {
+    return "Invalid async task";
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+namespace detail {
+
+// TODO: Your solution
+
+}  // namespace detail
+
+}  // namespace coro
