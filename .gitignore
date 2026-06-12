@@ -8,3 +8,9 @@
 08/test_mutex
 
 09/test_cond_var
+
+10/server
+10/client
+
+11/server
+11/client
